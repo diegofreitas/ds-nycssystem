@@ -13,4 +13,4 @@ def mann_whitney_plus_means(turnstile_weather):
     U, p = scipy.stats.mannwhitneyu(entries_with_rain,entries_without_rain)
     return with_rain_mean, without_rain_mean, U, p
 
-print(mann_whitney_plus_means(pandas.read_csv('turnstile_data_master_with_weather_part.csv')));
+print(mann_whitney_plus_means(pandas.read_csv('turnstile_data_master_with_weather.csv')));

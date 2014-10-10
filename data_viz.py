@@ -33,7 +33,7 @@ def plot_weather_data(turnstile_weather):
     However, due to the limitation of our Amazon EC2 server, we will give you only
     about 1/3 of the actual data in the turnstile_weather dataframe.
     '''
-
+    turnstile_weather = turnstile_weather[(turnstile_weather.rain == 1)]
     turnstile_weather['day_week'] = turnstile_weather.DATEn.apply(get_day_week)
     grouped_dataframe = turnstile_weather[['day_week','ENTRIESn_hourly']]
     grouped_dataframe = grouped_dataframe.groupby('day_week',as_index=False).mean()
@@ -42,6 +42,15 @@ def plot_weather_data(turnstile_weather):
             xlab('Day of Week') + ylab('Mean Entries Hourly')
     return plot
 
+
+def plot_entriesmean_by_hour(turnstile_weather):
+    turnstile_weather = turnstile_weather[(turnstile_weather.rain == 0)]
+    grouped_dataframe = turnstile_weather[['Hour','ENTRIESn_hourly']]
+    grouped_dataframe = grouped_dataframe.groupby('Hour',as_index=False)['ENTRIESn_hourly'].mean()
+    plot = ggplot(grouped_dataframe, aes(x='Hour', y='ENTRIESn_hourly')) + \
+            geom_bar(aes(x='Hour',weight='ENTRIESn_hourly'), fill='blue', stat="bar")+ \
+            xlab('Hour') + ylab('Mean Entries Hourly')
+    return plot
 
 def plot_weather_data2(df):
     '''
@@ -76,6 +85,7 @@ def plot_weather_data2(df):
     However, due to the limitation of our Amazon EC2 server, we will give you only
     about 1/3 of the actual data in the turnstile_weather dataframe.
     '''
+    df = df[(df.UNIT == 'R552')]
     df = df[['UNIT','Hour','ENTRIESn_hourly']]
     df = df.groupby(['UNIT','Hour'], as_index=False)['ENTRIESn_hourly'].mean()
     #df = df[(df.ENTRIESn_hourly < 5000)]
@@ -84,4 +94,4 @@ def plot_weather_data2(df):
 
     return plot
 
-print(plot_weather_data2(pandas.read_csv("turnstile_data_master_with_weather_part.csv")))
+print(plot_weather_data(pandas.read_csv("turnstile_data_master_with_weather.csv")))

@@ -4,7 +4,11 @@ __author__ = 'diego.freitas'
 import numpy as np
 import pandas
 import ggplot as gp
+from datetime import datetime
 import r_squared
+
+def get_day_week(date):
+    return datetime.strptime(date,'%Y-%m-%d').date().isoweekday()
 
 def normalize_features(array):
    """
@@ -73,10 +77,12 @@ def predictions(dataframe):
     If you are using your own algorithm/models, see if you can optimize your code so
     that it runs faster.
     '''
+    dataframe['weekday'] = dataframe.DATEn.apply(get_day_week)
 
     dummy_units = pandas.get_dummies(dataframe['UNIT'], prefix='unit')
-    print(dummy_units.tail())
-    features = dataframe[['rain', 'precipi', 'Hour','']].join(dummy_units)#   ''', 'Hour', 'meantempi' '''
+    #features = dataframe[['rain', 'Hour', 'weekday']].join(dummy_units)#   ''', 'Hour', 'meantempi' '''
+    features = dataframe[['rain', 'Hour', 'meantempi', 'weekday']].join(dummy_units)
+
     values = dataframe[['ENTRIESn_hourly']]
     m = len(values)
 
@@ -87,8 +93,8 @@ def predictions(dataframe):
     values_array = np.array(values).flatten()
 
     #Set values for alpha, number of iterations.
-    alpha = 0.1 # please feel free to change this value
-    num_iterations = 75 # please feel free to change this value
+    alpha = 0.1# please feel free to change this value
+    num_iterations = 200 # please feel free to change this value
 
     #Initialize theta, perform gradient descent
     theta_gradient_descent = np.zeros(len(features.columns))
@@ -109,7 +115,7 @@ def predictions(dataframe):
     # the 30 second limit on the compute servers.
 
 
-    return values_array, predictions, plot
+    return values_array, predictions, plot, theta_gradient_descent
 
 
 def plot_cost_history(alpha, cost_history):
@@ -131,9 +137,10 @@ def plot_cost_history(alpha, cost_history):
       gp.geom_point() + gp.geom_line() + gp.ggtitle('Cost History for alpha = %.3f' % alpha )
 
 
-real_results, predictions, plot = predictions(pandas.read_csv('turnstile_data_master_with_weather_part.csv', low_memory=False))
+real_results, predictions, plot, theta_gradient_descent = predictions(pandas.read_csv('turnstile_data_master_with_weather_part.csv', low_memory=False))
 
-print(predictions)
+#print(plot)
+print(theta_gradient_descent[0:4])
 print(compute_r_squared(real_results, predictions))
 
 

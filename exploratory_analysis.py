@@ -27,7 +27,7 @@ def entries_histogram(turnstile_weather):
 
     plt.figure()
     turnstile_weather[turnstile_weather.rain == 0].ENTRIESn_hourly.hist()
-    #turnstile_weather[turnstile_weather.rain == 1].ENTRIESn_hourly.hist()
+    turnstile_weather[turnstile_weather.rain == 1].ENTRIESn_hourly.hist()
 
     return plt
 
