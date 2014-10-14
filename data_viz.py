@@ -94,4 +94,4 @@ def plot_weather_data2(df):
 
     return plot
 
-print(plot_weather_data(pandas.read_csv("turnstile_data_master_with_weather.csv")))
+print(plot_entriesmean_by_hour(pandas.read_csv("turnstile_data_master_with_weather.csv")))

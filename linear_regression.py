@@ -5,10 +5,21 @@ import numpy as np
 import pandas
 import ggplot as gp
 from datetime import datetime
-import r_squared
+
+import itertools
 
 def get_day_week(date):
     return datetime.strptime(date,'%Y-%m-%d').date().isoweekday()
+
+def add_polynomial_features(df, degree, add_sqrt):
+    for i in range(2, degree + 1):
+        for combination in itertools.combinations_with_replacement(df.columns, i):
+            name = " ".join(combination)
+            value = np.prod(df[list(combination)], axis=1)
+            df[name] = value
+    if add_sqrt:
+        for column in df.columns:
+            df["%s_sqrt" % column] = np.sqrt(df[column])
 
 def normalize_features(array):
    """
@@ -77,11 +88,14 @@ def predictions(dataframe):
     If you are using your own algorithm/models, see if you can optimize your code so
     that it runs faster.
     '''
+    print (dataframe.describe())
     dataframe['weekday'] = dataframe.DATEn.apply(get_day_week)
 
     dummy_units = pandas.get_dummies(dataframe['UNIT'], prefix='unit')
     #features = dataframe[['rain', 'Hour', 'weekday']].join(dummy_units)#   ''', 'Hour', 'meantempi' '''
-    features = dataframe[['rain', 'Hour', 'meantempi', 'weekday']].join(dummy_units)
+    features = dataframe[['rain', 'Hour', 'meantempi', 'weekday']]
+    add_polynomial_features(features, 2, add_sqrt=True)
+    features = features.join(dummy_units)
 
     values = dataframe[['ENTRIESn_hourly']]
     m = len(values)
