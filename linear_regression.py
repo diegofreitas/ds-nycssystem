@@ -88,14 +88,12 @@ def predictions(dataframe):
     If you are using your own algorithm/models, see if you can optimize your code so
     that it runs faster.
     '''
-    print (dataframe.describe())
     dataframe['weekday'] = dataframe.DATEn.apply(get_day_week)
-
     dummy_units = pandas.get_dummies(dataframe['UNIT'], prefix='unit')
     #features = dataframe[['rain', 'Hour', 'weekday']].join(dummy_units)#   ''', 'Hour', 'meantempi' '''
-    features = dataframe[['rain', 'Hour', 'meantempi', 'weekday']]
-    add_polynomial_features(features, 2, add_sqrt=True)
-    features = features.join(dummy_units)
+    features = dataframe[['rain', 'Hour', 'meantempi', 'weekday']].join(dummy_units)
+    #add_polynomial_features(features, 2, add_sqrt=True)
+
 
     values = dataframe[['ENTRIESn_hourly']]
     m = len(values)
@@ -148,12 +146,12 @@ def plot_cost_history(alpha, cost_history):
       'Iteration': range(len(cost_history))
    })
    return gp.ggplot(cost_df, gp.aes('Iteration', 'Cost_History')) + \
-      gp.geom_point() + gp.geom_line() + gp.ggtitle('Cost History for alpha = %.3f' % alpha )
+        gp.geom_point() + gp.geom_line() + gp.ggtitle('Cost History for alpha = %.3f' % alpha )
 
 
-real_results, predictions, plot, theta_gradient_descent = predictions(pandas.read_csv('turnstile_data_master_with_weather_part.csv', low_memory=False))
+ real_results, predictions, plot, theta_gradient_descent = predictions(pandas.read_csv('turnstile_data_master_with_weather_part.csv', low_memory=False))
 
-#print(plot)
+
 print(theta_gradient_descent[0:4])
 print(compute_r_squared(real_results, predictions))
 

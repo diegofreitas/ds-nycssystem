@@ -2,6 +2,7 @@ __author__ = 'diego.freitas'
 from pandas import *
 from datetime import datetime
 from ggplot import *
+from linear_regression import *
 
 def get_day_week(date):
     return datetime.strftime(datetime.strptime(date,'%Y-%m-%d').date(),'%a')
@@ -93,5 +94,3 @@ def plot_weather_data2(df):
     plot = ggplot(df, aes(x='Hour',y='ENTRIESn_hourly',colour='UNIT', group='UNIT')) + geom_line() + geom_point()
 
     return plot
-
-print(plot_entriesmean_by_hour(pandas.read_csv("turnstile_data_master_with_weather.csv")))
