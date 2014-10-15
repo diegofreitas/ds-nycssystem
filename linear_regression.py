@@ -145,8 +145,8 @@ def plot_cost_history(alpha, cost_history):
       'Cost_History': cost_history,
       'Iteration': range(len(cost_history))
    })
-   return gp.ggplot(cost_df, gp.aes('Iteration', 'Cost_History')) + \
-        gp.geom_point() + gp.geom_line() + gp.ggtitle('Cost History for alpha = %.3f' % alpha )
+   return gp.ggplot(cost_df, gp.aes('Iteration', 'Cost_History')) +\
+          gp.geom_point() + gp.geom_line() + gp.ggtitle('Cost History for alpha = %.3f' % alpha )
 
 
  real_results, predictions, plot, theta_gradient_descent = predictions(pandas.read_csv('turnstile_data_master_with_weather_part.csv', low_memory=False))
