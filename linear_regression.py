@@ -61,7 +61,7 @@ def predictions(dataframe):
     dataframe['weekday'] = dataframe.DATEn.apply(get_day_week)
     dummy_units = pandas.get_dummies(dataframe['UNIT'], prefix='unit')
     #features = dataframe[['rain', 'Hour', 'weekday']].join(dummy_units)#   ''', 'Hour', 'meantempi' '''
-    features = dataframe[[ 'Hour', 'meantempi', 'weekday']]
+    features = dataframe[[ 'rain', 'Hour', 'meantempi', 'weekday']]
     #add_polynomial_features(features, 3, add_sqrt=False)
     features = features.join(dummy_units)
 
