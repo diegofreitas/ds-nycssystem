@@ -2,9 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="927b2157-6ad5-47e2-9328-45d57ec7bb19" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/data_viz.py" afterPath="$PROJECT_DIR$/data_viz.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/functions.py" afterPath="$PROJECT_DIR$/functions.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ols.py" afterPath="$PROJECT_DIR$/ols.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="ds-nycssystem.iws" />
@@ -499,7 +496,8 @@
     <MESSAGE value="playing with the code" />
     <MESSAGE value="cleaning code" />
     <MESSAGE value="Implement OLS" />
-    <option name="LAST_COMMIT_MESSAGE" value="Implement OLS" />
+    <MESSAGE value="improve formula for ols" />
+    <option name="LAST_COMMIT_MESSAGE" value="improve formula for ols" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
