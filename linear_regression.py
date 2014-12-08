@@ -3,18 +3,16 @@ __author__ = 'diego.freitas'
 import numpy as np
 import pandas
 import ggplot as gp
-from datetime import datetime
+from functions import *
 
 import itertools
 
-def compute_r_squared(data, predictions):
-    mean = np.mean(data)
-    r_squared = 1 - (np.sum(np.square(data-predictions)) /np.sum(np.square(data-mean)))
 
-    return r_squared
-
-def get_day_week(date):
-    return datetime.strptime(date,'%Y-%m-%d').date().isoweekday()
+def compute_cost(features, values, theta):
+    m = len(values)
+    sum_of_square_errors = np.square(np.dot(features, theta) - values).sum()
+    cost = sum_of_square_errors / (2*m)
+    return cost
 
 def add_polynomial_features(df, degree, add_sqrt):
     for i in range(2, degree + 1):
@@ -36,14 +34,7 @@ def normalize_features(array):
 
    return array_normalized, mu, sigma
 
-def compute_cost(features, values, theta):
 
-
-    m = len(values)
-    sum_of_square_errors = np.square(np.dot(features, theta) - values).sum()
-    cost = sum_of_square_errors / (2*m)
-
-    return cost
 
 def gradient_descent(features, values, theta, alpha, num_iterations):
 
@@ -110,10 +101,10 @@ def plot_cost_history(alpha, cost_history):
           gp.geom_point() + gp.geom_line() + gp.ggtitle('Cost History for alpha = %.3f' % alpha )
 
 
-real_results, predictions, plot, theta_gradient_descent = predictions(pandas.read_csv('turnstile_data_master_with_weather_part.csv', low_memory=False))
+real_results, predictions, plot, theta_gradient_descent = predictions(pandas.read_csv('turnstile_data_master_with_weather.csv', low_memory=False))
 
 
-print(theta_gradient_descent[0:4])
+print(theta_gradient_descent[0:5])
 print(compute_r_squared(real_results, predictions))
 
 
