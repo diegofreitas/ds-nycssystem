@@ -11,3 +11,15 @@ def compute_r_squared(data, predictions):
 
 def get_day_week(date):
     return datetime.strptime(date,'%Y-%m-%d').date().isoweekday()
+
+def convert_hour(hour):
+    if hour <= 12:
+        return hour
+    else:
+        return hour - 12
+
+def ampm_hour(hour):
+    if hour <= 12:
+        return 'am'
+    else:
+        return 'pm'

@@ -7,8 +7,11 @@ from functions import *
 
 def predictions(weather_turnstile):
     weather_turnstile['weekday'] = weather_turnstile.DATEn.apply(get_day_week)
-    features = weather_turnstile[['UNIT','rain', 'Hour', 'meantempi', 'weekday']]
-    model = smf.ols('ENTRIESn_hourly ~ UNIT + rain + Hour + meantempi + weekday', data=weather_turnstile).fit()
+    #weather_turnstile['hour_ampm'] = weather_turnstile.Hour.apply(convert_hour)
+    #weather_turnstile['hour_type'] = weather_turnstile.Hour.apply(ampm_hour)
+
+    features = weather_turnstile[['UNIT','rain', 'Hour', 'meantempi', 'weekday', 'fog', 'thunder']]
+    model = smf.ols('ENTRIESn_hourly ~ UNIT * Hour + rain + meantempi + weekday', data=weather_turnstile).fit()
     print model.summary()
     return model.predict(features)
 

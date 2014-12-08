@@ -2,10 +2,7 @@ __author__ = 'diego.freitas'
 from pandas import *
 from datetime import datetime
 from ggplot import *
-from linear_regression import *
-
-def get_day_week(date):
-    return datetime.strftime(datetime.strptime(date,'%Y-%m-%d').date(),'%a')
+from functions import *
 
 def plot_weather_data(turnstile_weather):
     turnstile_weather = turnstile_weather[(turnstile_weather.rain == 1)]
@@ -29,11 +26,14 @@ def plot_entriesmean_by_hour(turnstile_weather):
 
 def plot_weather_data2(df):
 
-    df = df[(df.UNIT == 'R552')]
+    df = df[(df.UNIT.isin(['R100','R300','R200','R400']))]
     df = df[['UNIT','Hour','ENTRIESn_hourly']]
     df = df.groupby(['UNIT','Hour'], as_index=False)['ENTRIESn_hourly'].mean()
-    #df = df[(df.ENTRIESn_hourly < 5000)]
-    #df = df[(df.ENTRIESn_hourly  5000)]
+    #df = df[(df.ENTRIESn_hourly <500)]
+    #df = df[(df.ENTRIESn_hourly > 5000)]
     plot = ggplot(df, aes(x='Hour',y='ENTRIESn_hourly',colour='UNIT', group='UNIT')) + geom_line() + geom_point()
 
     return plot
+
+data = pandas.read_csv('turnstile_data_master_with_weather.csv')
+print plot_weather_data2(data)
