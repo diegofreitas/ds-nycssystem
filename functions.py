@@ -23,3 +23,6 @@ def ampm_hour(hour):
         return 'am'
     else:
         return 'pm'
+
+def normalize(values):
+    return values / np.linalg.norm(values)
